@@ -6,8 +6,8 @@ const {
   listContacts,
   getContactById,
   addContact,
-  // removeContact,
-  // updateContact,
+  removeContact,
+  updateContact,
 } = require("../models/contacts");
 
 // Вызываем функцию listContacts для работы с json-файлом contacts.json
@@ -48,8 +48,40 @@ const addContacts = async (req, res, next) => {
   }
 };
 
+// Удаление контакта
+const deleteContact = async (req, res, next) => {
+  try {
+    const result = await removeContact(req.params.contactId);
+
+    if (!result) {
+      return res.status(404).json({ message: "Not found" });
+    }
+    res.status(200).json({ message: "contact deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Обновление контакта
+const putContact = async (req, res, next) => {
+  try {
+    const contact = await updateContact(req.params.contactId, req.body);
+
+    if (!contact) {
+      return res.status(400).json({ message: "missing fields" });
+    } else if (contact) {
+      return res.status(200).json({ contact, status: "Success" });
+    }
+    res.status(404).json({ message: "Not found" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getContacts,
   getContactsById,
   addContacts,
+  deleteContact,
+  putContact,
 };
