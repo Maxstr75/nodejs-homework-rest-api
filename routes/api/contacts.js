@@ -2,24 +2,27 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
-  res.json({ message: "Home work done!" });
-});
+const {
+  getContacts,
+  getContactsById,
+  addContacts,
+  deleteContact,
+  putContact,
+} = require("../../controllers/contactsController");
 
-router.get("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+// Роут для поиска всех контактов
+router.get("/", getContacts);
 
-router.post("/", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+// Роут поиска контакта по id
+router.get("/:contactId", getContactsById);
 
-router.delete("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+// Роут для создания контакта
+router.post("/", addContacts);
 
-router.put("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
-});
+// Роут для удаления контакта
+router.delete("/:contactId", deleteContact);
+
+// Роут для обновления контактов
+router.put("/:contactId", putContact);
 
 module.exports = router;

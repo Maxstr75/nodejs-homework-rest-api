@@ -83,5 +83,5 @@ module.exports = {
   getContactsById,
   addContacts,
   deleteContact,
-  putContact,
+  putContact
 };
