@@ -5,10 +5,10 @@
 const {
   listContacts,
   getContactById,
+  addContact,
   // removeContact,
-  // addContact,
   // updateContact,
-} = require("../models");
+} = require("../models/contacts");
 
 // Вызываем функцию listContacts для работы с json-файлом contacts.json
 const getContacts = async (reg, res, next) => {
@@ -20,7 +20,7 @@ const getContacts = async (reg, res, next) => {
   }
 };
 
-// Получаем контакт по id
+// Получение контакт по id
 const getContactsById = async (req, res, next) => {
   try {
     const contact = await getContactById(req.params.contactId);
@@ -34,7 +34,22 @@ const getContactsById = async (req, res, next) => {
   }
 };
 
+// Создание контакта
+const addContacts = async (req, res, next) => {
+  try {
+    const contact = await addContact(req.body);
+
+    if (!contact) {
+      return res.status(400).json({ message: "missing required name field" });
+    }
+    res.status(201).json({ contact, status: "Success" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getContacts,
   getContactsById,
+  addContacts,
 };
