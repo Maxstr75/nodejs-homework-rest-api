@@ -1,7 +1,6 @@
 // Контроллеры - прописываю логику обработки  маршрута
 
 // Импорт функций для работы с локальной базой данных (json файлом)
-
 const {
   listContacts,
   getContactById,
@@ -83,5 +82,5 @@ module.exports = {
   getContactsById,
   addContacts,
   deleteContact,
-  putContact
+  putContact,
 };
