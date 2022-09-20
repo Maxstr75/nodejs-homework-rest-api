@@ -34,7 +34,7 @@ const validate = (schema, res, obj, next) => {
   if (validationLogs.error) {
     return res
       .status(400)
-      .json({ message: validationLogs.error.replace(/"/g, "") });
+      .json({ message: validationLogs.error.message.replace(/"/g, "") });
   }
   next();
 };
