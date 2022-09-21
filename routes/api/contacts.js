@@ -15,19 +15,21 @@ const {
   putContactValidation,
 } = require("../../middlewares/validation");
 
+const ctrlWrapper = require("../../middlewares/ctrlWrapper");
+
 // Роут для поиска всех контактов
-router.get("/", getContacts);
+router.get("/", ctrlWrapper(getContacts));
 
 // Роут поиска контакта по id
-router.get("/:contactId", getContactsById);
+router.get("/:contactId", ctrlWrapper(getContactsById));
 
 // Роут для создания контакта
-router.post("/", addContactValidation, addContacts);
+router.post("/", addContactValidation, ctrlWrapper(addContacts));
 
 // Роут для удаления контакта
-router.delete("/:contactId", deleteContact);
+router.delete("/:contactId", ctrlWrapper(deleteContact));
 
 // Роут для обновления контактов
-router.put("/:contactId", putContactValidation, putContact);
+router.put("/:contactId", putContactValidation, ctrlWrapper(putContact));
 
 module.exports = router;
