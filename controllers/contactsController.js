@@ -7,7 +7,7 @@ const {
   addContact,
   removeContact,
   updateContact,
-} = require("../models/contacts");
+} = require("../services/contactsServices");
 
 // Вызываем функцию listContacts для работы с json-файлом contacts.json
 const getContacts = async (reg, res) => {
