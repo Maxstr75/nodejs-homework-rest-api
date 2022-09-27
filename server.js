@@ -15,3 +15,5 @@ const start = async () => {
     console.log(`Server not running. Error message: ${error.message}`);
   }
 };
+
+start();
