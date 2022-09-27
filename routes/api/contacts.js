@@ -15,7 +15,7 @@ const {
   putContactValidation,
 } = require("../../middlewares/validation");
 
-const ctrlWrapper = require("../../middlewares/ctrlWrapper");
+const ctrlWrapper = require("../../helpers/ctrlWrapper");
 
 // Роут для поиска всех контактов
 router.get("/", ctrlWrapper(getContacts));
