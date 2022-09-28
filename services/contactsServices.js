@@ -8,8 +8,8 @@ const getAllContacts = async () => {
 };
 
 // Находит контакт по id
-const getContactById = async (id) => {
-  const contact = await Contact.findOne({ _id: id });
+const getContactById = async (contactId) => {
+  const contact = await Contact.findById(contactId);
   return contact;
 };
 
@@ -20,23 +20,23 @@ const createContact = async ({ name, email, phone, favorite }) => {
 };
 
 // Удаляет контакт
-const removeContact = async (id) => {
-  const contact = await Contact.findByIdAndRemove({ _id: id });
+const removeContact = async (contactId) => {
+  const contact = await Contact.findByIdAndRemove(contactId);
   return contact;
 };
 
 // Обновляет контакт
-const updateContact = async (id, body) => {
-  const updatedContact = await Contact.findByIdAndUpdate({ _id: id }, body, {
+const updateContact = async (contactId, body) => {
+  const updatedContact = await Contact.findByIdAndUpdate(contactId, body, {
     new: true,
   });
   return updatedContact;
 };
 
 // Обновляет статус контакт (set под вопросом!)
-const updateContactStatus = async (id, { favorite }) => {
+const updateContactStatus = async (contactId, { favorite }) => {
   const updatedContact = await Contact.findByIdAndUpdate(
-    { _id: id },
+    contactId,
     { favorite },
     { new: true }
   );
