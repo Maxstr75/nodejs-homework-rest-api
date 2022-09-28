@@ -2,16 +2,17 @@
 
 // Импорт функций для работы с локальной базой данных (json файлом)
 const {
-  listContacts,
+  getAllContacts,
   getContactById,
-  addContact,
+  createContact,
   removeContact,
   updateContact,
+  updateContactStatus,
 } = require("../services/contactsServices");
 
 // Вызываем функцию listContacts для работы с json-файлом contacts.json
 const getContacts = async (reg, res) => {
-  const contacts = await listContacts();
+  const contacts = await getAllContacts();
   res.status(200).json({ contacts, status: "Success" });
 };
 
@@ -27,7 +28,7 @@ const getContactsById = async (req, res) => {
 
 // Создание контакта
 const addContacts = async (req, res) => {
-  const contact = await addContact(req.body);
+  const contact = await createContact(req.body);
 
   if (!contact) {
     return res.status(400).json({ message: "missing required name field" });
@@ -46,8 +47,20 @@ const deleteContact = async (req, res) => {
 };
 
 // Обновление контакта
-const putContact = async (req, res) => {
+const updateContacts = async (req, res) => {
   const contact = await updateContact(req.params.contactId, req.body);
+
+  if (!contact) {
+    return res.status(400).json({ message: "missing fields" });
+  } else if (contact) {
+    return res.status(200).json({ contact, status: "Success" });
+  }
+  res.status(404).json({ message: "Not found" });
+};
+
+// Обновление статуса контакта
+const updateContactsStatus = async (req, res) => {
+  const contact = await updateContactStatus(req.params.contactId, req.body);
 
   if (!contact) {
     return res.status(400).json({ message: "missing fields" });
@@ -62,5 +75,6 @@ module.exports = {
   getContactsById,
   addContacts,
   deleteContact,
-  putContact,
+  updateContacts,
+  updateContactsStatus,
 };
