@@ -18,7 +18,7 @@ const {
   idValidation,
 } = require("../../middlewares/validation");
 
-const ctrlWrapper = require("../../helpers/ctrlWrapper");
+const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
 // Роут для списка всех контактов
 router.get("/", ctrlWrapper(getContacts));
