@@ -1,14 +1,15 @@
 // Файл для подключения к БД
 const mongoose = require("mongoose");
+
 const uriDb = process.env.DB_HOST; // идентификатор  ресурса.
 
 // Подключение к БД
 const db = async () => {
   return await mongoose.connect(uriDb, {
     useNewUrlParser: true,
-    useCreateIndex: true,
+    // useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
+    // useFindAndModify: false,
   });
 };
 
