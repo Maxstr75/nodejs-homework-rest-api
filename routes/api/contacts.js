@@ -7,29 +7,44 @@ const {
   getContactsById,
   addContacts,
   deleteContact,
-  putContact,
+  updateContacts,
+  updateContactsStatus,
 } = require("../../controllers/contactsController");
 
 const {
   addContactValidation,
-  putContactValidation,
+  updateContactValidation,
+  updateContactStatusValidation,
+  idValidation,
 } = require("../../middlewares/validation");
 
-const ctrlWrapper = require("../../middlewares/ctrlWrapper");
+const ctrlWrapper = require("../../helpers/ctrlWrapper");
 
-// Роут для поиска всех контактов
+// Роут для списка всех контактов
 router.get("/", ctrlWrapper(getContacts));
 
 // Роут поиска контакта по id
-router.get("/:contactId", ctrlWrapper(getContactsById));
+router.get("/:contactId", idValidation, ctrlWrapper(getContactsById));
 
 // Роут для создания контакта
 router.post("/", addContactValidation, ctrlWrapper(addContacts));
 
 // Роут для удаления контакта
-router.delete("/:contactId", ctrlWrapper(deleteContact));
+router.delete("/:contactId", idValidation, ctrlWrapper(deleteContact));
 
 // Роут для обновления контактов
-router.put("/:contactId", putContactValidation, ctrlWrapper(putContact));
+router.patch(
+  "/:contactId",
+  idValidation,
+  updateContactValidation,
+  ctrlWrapper(updateContacts)
+);
 
+// Роут для статуса контакта
+router.patch(
+  "/:contactId/favorite",
+  idValidation,
+  updateContactStatusValidation,
+  ctrlWrapper(updateContactsStatus)
+);
 module.exports = router;
