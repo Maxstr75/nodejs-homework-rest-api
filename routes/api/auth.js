@@ -6,6 +6,6 @@ const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
 // singup
 
-router.post("/login", ctrlWrapper);
+router.post("/login", ctrlWrapper());
 
 module.exports = router;
