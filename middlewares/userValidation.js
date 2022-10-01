@@ -10,9 +10,7 @@ const regLogUserSchema = Joi.object({
     })
     .required(),
   password: Joi.string()
-    .pattern(
-      /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g
-    )
+    .pattern(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/)
     .required(),
 });
 //  Пояснения пароля:
