@@ -1,3 +1,4 @@
+// Мидлвар для валидации
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 

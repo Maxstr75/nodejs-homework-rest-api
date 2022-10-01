@@ -16,7 +16,7 @@ const {
   updateContactValidation,
   updateContactStatusValidation,
   idValidation,
-} = require("../../middlewares/validation");
+} = require("../../middlewares/contactValidation");
 
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
