@@ -1,5 +1,5 @@
 // Сервис работы с БД
-const Contact = require("../schemas/contacts");
+const Contact = require("../models/contacts");
 
 // Получаем все контакты
 const getAllContacts = async () => {
