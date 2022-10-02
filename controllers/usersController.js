@@ -1,5 +1,9 @@
 const { Conflict } = require("http-errors");
-const { createUser, findUserByEmail } = require("../services/userService");
+const {
+  createUser,
+  findUserByEmail,
+  // findUserById,
+} = require("../services/userService");
 
 //  Регистрация юзера
 const regController = async (req, res) => {

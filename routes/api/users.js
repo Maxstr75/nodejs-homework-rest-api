@@ -7,6 +7,6 @@ const { regController } = require("../../controllers/usersController"); // Ва�
 const { regLogValidation } = require("../../middlewares/userValidation");
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
-router.post("/login", regLogValidation, ctrlWrapper(regController)); // singup
+router.post("/signup", regLogValidation, ctrlWrapper(regController)); // singup
 
 module.exports = router;
