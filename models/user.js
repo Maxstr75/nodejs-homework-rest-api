@@ -27,7 +27,7 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-// Хук, хеширует и солит пароль перед сохранением в базу
+// Метод, хеширует и солит пароль перед сохранением в базу
 userSchema.pre("save", function () {
   if (this.isNew) {
     this.password = bcrypt.hashSync(this.password, 10);
