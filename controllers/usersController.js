@@ -1,4 +1,4 @@
-const { Conflict } = require("http-errors");
+// const { Conflict } = require("http-errors");
 const {
   createUser,
   findUserByEmail,
@@ -10,8 +10,8 @@ const regController = async (req, res) => {
   const user = await findUserByEmail(req.body.email);
 
   if (user) {
-    throw new Conflict(`Email in use`);
-    // return res.status(409).json({ message: "Email in use" });
+    // throw new Conflict(`Email in use`);
+    return res.status(409).json({ message: "Email in use" });
   }
 
   const { email, subscription } = await createUser(req.body);

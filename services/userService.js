@@ -14,8 +14,8 @@ const findUserById = async (id) => {
 
 // Находит юзера в базе по email
 const findUserByEmail = async (email) => {
-  const user = await User.findOne(email);
-  // console.log(email);
+  const user = await User.findOne({ email });
+  // console.log(user);
   return user;
 };
 
