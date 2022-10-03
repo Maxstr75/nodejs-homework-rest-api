@@ -1,4 +1,4 @@
-const { User } = require("../models/user");
+const User = require("../models/user");
 
 // Создает нового юзера в базе
 const createUser = async (body) => {
@@ -14,7 +14,8 @@ const findUserById = async (id) => {
 
 // Находит юзера в базе по email
 const findUserByEmail = async (email) => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne(email);
+  console.log(email);
   return user;
 };
 
