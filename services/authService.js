@@ -1,12 +1,12 @@
 const User = require("./userService");
 const jwt = require("jsonwebtoken"); // Библиотека для создания токенов
 
-const SECRET_KEY = process.env.SECRET_KEY; // секрет для подписи токена
+const { SECRET_KEY } = process.env; // секрет для подписи токена
 
 // Логин юзера
 const login = async ({ email, password }) => {
   const user = await User.findUserByEmail(email);
-  const isValidPassword = await user.validPassword(password);
+  const isValidPassword = await user?.validPassword(password);
 
   // Если юзер или пароль не валидные - вщзвращаем null вместо токена
   if (!user || !isValidPassword) {
