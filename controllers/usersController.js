@@ -1,5 +1,5 @@
 // const { Conflict } = require("http-errors");
-
+const { login } = require("../services/authService");
 const {
   createUser,
   findUserByEmail,
@@ -7,7 +7,7 @@ const {
 } = require("../services/userService");
 
 //  Регистрация юзера
-const regController = async (req, res) => {
+const registerController = async (req, res) => {
   const user = await findUserByEmail(req.body.email);
 
   if (user) {
@@ -16,9 +16,34 @@ const regController = async (req, res) => {
   }
 
   const { email, subscription } = await createUser(req.body);
-  res.status(201).json({ user: { email, subscription } });
+  res.status(201).json({
+    user: {
+      email,
+      subscription,
+    },
+  });
+};
+
+// Вход юзера
+const loginController = async (req, res) => {
+  const token = await login(req.body);
+
+  if (token) {
+    const { email, subscription } = await findUserByEmail(req.body.email);
+    res.status(200).json({
+      token,
+      user: {
+        email,
+        subscription,
+      },
+    });
+  }
+  res.status(401).json({
+    message: "Email or password is wrong",
+  });
 };
 
 module.exports = {
-  regController,
+  registerController,
+  loginController,
 };

@@ -27,12 +27,21 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-// Метод, хеширует и солит пароль перед сохранением в базу
-userSchema.pre("save", function () {
-  if (this.isNew) {
-    this.password = bcrypt.hashSync(this.password, 10);
-  }
+// Хук, хеширует и солит пароль перед сохранением в базу
+userSchema.pre("save", function (next) {
+  this.password = bcrypt.hashSync(this.password, 10);
+  // this.password = hash;
+  next();
+  // if (this.isNew) {
+  //   this.password = bcrypt.hashSync(this.password, 10);
+  // }
 });
+
+// Сравнивает пароли при входе юзера (возвращает null если не совпадают)
+userSchema.methods.validPassword = function (password) {
+  const result = bcrypt.compareSync(password, this.password);
+  return result;
+};
 
 const User = mongoose.model("user", userSchema);
 
