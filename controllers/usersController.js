@@ -3,7 +3,7 @@ const { login } = require("../services/authService");
 const {
   createUser,
   findUserByEmail,
-  // findUserById,
+  findUserById,
 } = require("../services/userService");
 
 //  Регистрация юзера
@@ -43,7 +43,18 @@ const loginController = async (req, res) => {
   });
 };
 
+// Текущий юзер
+const currentUserController = async (req, res) => {
+  const currentUser = await findUserById(req.user.id);
+
+  if (currentUser) {
+    const { email, subscription } = currentUser;
+    res.status(200).json({ email, subscription });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
+  currentUserController,
 };
