@@ -21,13 +21,13 @@ const { authenticate } = require("../../middlewares/authenticate");
 
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
-// Роут для списка всех контактов
+// Роут для списка всех контактов авторизированным юзером
 router.get("/", authenticate, ctrlWrapper(getContacts));
 
 // Роут поиска контакта по id
 router.get("/:contactId", idValidation, ctrlWrapper(getContactsById));
 
-// Роут для создания контакта
+// Роут для создания контакта авторизированным юзером
 router.post("/", authenticate, addContactValidation, ctrlWrapper(addContacts));
 
 // Роут для удаления контакта
