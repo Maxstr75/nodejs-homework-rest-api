@@ -17,6 +17,7 @@ const {
   updateContactStatusValidation,
   idValidation,
 } = require("../../middlewares/contactValidation");
+const { authenticate } = require("../../middlewares/authenticate");
 
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
@@ -27,7 +28,7 @@ router.get("/", ctrlWrapper(getContacts));
 router.get("/:contactId", idValidation, ctrlWrapper(getContactsById));
 
 // Роут для создания контакта
-router.post("/", addContactValidation, ctrlWrapper(addContacts));
+router.post("/", authenticate, addContactValidation, ctrlWrapper(addContacts));
 
 // Роут для удаления контакта
 router.delete("/:contactId", idValidation, ctrlWrapper(deleteContact));

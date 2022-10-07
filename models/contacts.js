@@ -5,15 +5,15 @@ const contactSchema = new Schema(
   {
     name: {
       type: String,
-      require: [true, "Set name for contact!"],
+      required: [true, "Set name for contact!"],
     },
     email: {
       type: String,
-      require: [true, "Email is required!"],
+      required: [true, "Email is required!"],
     },
     phone: {
       type: String,
-      require: [true, "Phone is required!"],
+      required: [true, "Phone is required!"],
     },
     favorite: {
       type: Boolean,
@@ -22,6 +22,7 @@ const contactSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }

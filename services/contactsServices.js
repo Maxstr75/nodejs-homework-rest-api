@@ -14,8 +14,8 @@ const getContactById = async (contactId) => {
 };
 
 // Создает  новый контакт
-const createContact = async ({ name, email, phone, favorite }) => {
-  const newContact = await Contact.create({ name, email, phone, favorite });
+const createContact = async (userId, body) => {
+  const newContact = await Contact.create({ ...body, owner: userId });
   return newContact;
 };
 
