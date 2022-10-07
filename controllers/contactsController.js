@@ -18,7 +18,7 @@ const getContacts = async (req, res) => {
 
 // Получение контакт по id
 const getContactsById = async (req, res) => {
-  const contact = await getContactById(req.params.contactId);
+  const contact = await getContactById(req.user.id, req.params.contactId);
 
   if (!contact) {
     return res.status(404).json({ message: "Not found" });
@@ -38,7 +38,7 @@ const addContacts = async (req, res) => {
 
 // Удаление контакта
 const deleteContact = async (req, res) => {
-  const result = await removeContact(req.params.contactId);
+  const result = await removeContact(req.user.id, req.params.contactId);
 
   if (!result) {
     return res.status(404).json({ message: "Not found" });
@@ -48,7 +48,11 @@ const deleteContact = async (req, res) => {
 
 // Обновление контакта
 const updateContacts = async (req, res) => {
-  const contact = await updateContact(req.params.contactId, req.body);
+  const contact = await updateContact(
+    req.user.id,
+    req.params.contactId,
+    req.body
+  );
 
   if (!contact) {
     return res.status(400).json({ message: "missing fields" });
@@ -60,7 +64,11 @@ const updateContacts = async (req, res) => {
 
 // Обновление статуса контакта
 const updateContactsStatus = async (req, res) => {
-  const contact = await updateContactStatus(req.params.contactId, req.body);
+  const contact = await updateContactStatus(
+    req.user.id,
+    req.params.contactId,
+    req.body
+  );
 
   if (!contact) {
     return res.status(400).json({ message: "missing fields" });
