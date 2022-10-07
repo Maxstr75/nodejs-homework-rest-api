@@ -22,7 +22,7 @@ const { authenticate } = require("../../middlewares/authenticate");
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
 // Роут для списка всех контактов
-router.get("/", ctrlWrapper(getContacts));
+router.get("/", authenticate, ctrlWrapper(getContacts));
 
 // Роут поиска контакта по id
 router.get("/:contactId", idValidation, ctrlWrapper(getContactsById));

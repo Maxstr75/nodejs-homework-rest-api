@@ -2,8 +2,8 @@
 const Contact = require("../models/contacts");
 
 // Получаем все контакты
-const getAllContacts = async () => {
-  const contacts = await Contact.find();
+const getAllContacts = async (userId) => {
+  const contacts = await Contact.find({ owner: userId });
   return contacts;
 };
 

@@ -11,8 +11,8 @@ const {
 } = require("../services/contactsServices");
 
 // Вызываем функцию listContacts для работы с json-файлом contacts.json
-const getContacts = async (reg, res) => {
-  const contacts = await getAllContacts();
+const getContacts = async (req, res) => {
+  const contacts = await getAllContacts(req.user.id);
   res.status(200).json({ contacts, status: "Success" });
 };
 
