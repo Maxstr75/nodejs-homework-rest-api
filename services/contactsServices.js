@@ -3,10 +3,10 @@ const Contact = require("../models/contacts");
 
 // Получаем все контакты
 const getAllContacts = async (userId) => {
-  const contacts = await Contact.find({ owner: userId }).populate(
-    "owner",
-    "email subscription"
-  );
+  const contacts = await Contact.find({ owner: userId }, "", {
+    skip: 2,
+    limit: 2,
+  }).populate("owner", "email subscription");
   return contacts;
 };
 

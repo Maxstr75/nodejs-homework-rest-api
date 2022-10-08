@@ -18,6 +18,7 @@ const getContacts = async (req, res) => {
 
 // Получение контакт по id
 const getContactsById = async (req, res) => {
+  console.log(req.query);
   const contact = await getContactById(req.user.id, req.params.contactId);
 
   if (!contact) {
