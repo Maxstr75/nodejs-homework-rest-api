@@ -28,7 +28,7 @@ const getAllContacts = async (userId, query) => {
       ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
     },
     select: filter ? filter.split("|").join(" ") : "",
-    populate: ("owner", "email subscription"),
+    populate: ("owner", "email"),
   });
 
   const { docs: contacts, totalDocs: total, totalPages } = result;
