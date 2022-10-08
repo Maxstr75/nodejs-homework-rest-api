@@ -2,12 +2,45 @@
 const Contact = require("../models/contacts");
 
 // Получаем все контакты
-const getAllContacts = async (userId) => {
-  const contacts = await Contact.find({ owner: userId }, "", {
-    skip: 2,
-    limit: 2,
-  }).populate("owner", "email subscription");
-  return contacts;
+const getAllContacts = async (userId, query) => {
+  const {
+    page = 1,
+    limit = 20,
+    offset = (page - 1) * limit,
+    sortBy,
+    sortByDesc,
+    filter,
+    favorite = null,
+  } = query;
+
+  const params = { owner: userId };
+
+  if (favorite !== null) {
+    params.favorite = favorite;
+  }
+
+  const result = await Contact.paginate(params, {
+    page,
+    limit,
+    offset,
+    sort: {
+      ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+      ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
+    },
+    select: filter ? filter.split("|").join(" ") : "",
+    populate: { path: "owner", select: "email subscription" },
+  });
+
+  const { docs: contacts, totalDocs: total, totalPages } = result;
+
+  return {
+    contacts,
+    total,
+    totalPages,
+    page: Number(page),
+    limit: Number(limit),
+    offset: Number(offset),
+  };
 };
 
 // Находит контакт по id

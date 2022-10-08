@@ -13,8 +13,8 @@ const {
 // Вызываем функцию listContacts для работы с json-файлом contacts.json
 const getContacts = async (req, res) => {
   console.log(req.query);
-  const contacts = await getAllContacts(req.user.id);
-  res.status(200).json({ contacts, status: "Success" });
+  const contacts = await getAllContacts(req.user.id, req.query);
+  res.status(200).json({ ...contacts, status: "Success" });
 };
 
 // Получение контакт по id
