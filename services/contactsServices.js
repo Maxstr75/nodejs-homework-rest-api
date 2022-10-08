@@ -3,45 +3,55 @@ const Contact = require("../models/contacts");
 
 // Получаем все контакты
 const getAllContacts = async (userId, query) => {
-  const {
-    page = 1,
-    limit = 20,
-    offset = (page - 1) * limit,
-    sortBy,
-    sortByDesc,
-    filter,
-    favorite = null,
-  } = query;
-
-  const params = { owner: userId };
-
-  if (favorite !== null) {
-    params.favorite = favorite;
-  }
-
-  const result = await Contact.paginate(params, {
-    page,
-    limit,
-    offset,
-    sort: {
-      ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
-      ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
-    },
-    select: filter ? filter.split("|").join(" ") : "",
-    populate: ("owner", "email"),
-  });
-
-  const { docs: contacts, totalDocs: total, totalPages } = result;
-
-  return {
-    contacts,
-    total,
-    totalPages,
-    page: Number(page),
+  const { page = 1, limit = 20 } = query;
+  const skip = (page - 1) * limit;
+  const contacts = await Contact.find({ owner: userId }, "", {
+    skip,
     limit: Number(limit),
-    offset: Number(offset),
-  };
+  }).populate("owner", "email");
+  return contacts;
 };
+
+// const getAllContacts = async (userId, query) => {
+//   const {
+//     page = 1,
+//     limit = 20,
+//     offset = (page - 1) * limit,
+//     sortBy,
+//     sortByDesc,
+//     filter,
+//     favorite = null,
+//   } = query;
+
+//   const params = { owner: userId };
+
+//   if (favorite !== null) {
+//     params.favorite = favorite;
+//   }
+
+//   const result = await Contact.paginate(params, {
+//     page,
+//     limit,
+//     offset,
+//     sort: {
+//       ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+//       ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
+//     },
+//     select: filter ? filter.split("|").join(" ") : "",
+//     populate: ("owner", "email"),
+//   });
+
+//   const { docs: contacts, totalDocs: total, totalPages } = result;
+
+//   return {
+//     contacts,
+//     total,
+//     totalPages,
+//     page: Number(page),
+//     limit: Number(limit),
+//     offset: Number(offset),
+//   };
+// };
 
 // Находит контакт по id
 const getContactById = async (userId, contactId) => {
