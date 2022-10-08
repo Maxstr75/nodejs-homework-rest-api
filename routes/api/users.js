@@ -7,9 +7,13 @@ const {
   loginController,
   currentUserController,
   logoutController,
+  subscriptionController,
 } = require("../../controllers/usersController"); // Валидации Joi
 
-const { regLogValidation } = require("../../middlewares/userValidation");
+const {
+  regLogValidation,
+  subscriptionValidation,
+} = require("../../middlewares/userValidation");
 const { authenticate } = require("../../middlewares/authenticate");
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
@@ -22,5 +26,11 @@ router.get(
   regLogValidation,
   ctrlWrapper(currentUserController)
 ); // Роут для текущего юзера
+router.patch(
+  "/subscription",
+  authenticate,
+  subscriptionValidation,
+  ctrlWrapper(subscriptionController)
+); // Роут для обновления статуса
 
 module.exports = router;

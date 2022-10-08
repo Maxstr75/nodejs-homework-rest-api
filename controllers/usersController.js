@@ -4,6 +4,7 @@ const {
   createUser,
   findUserByEmail,
   findUserById,
+  updateSubscription,
 } = require("../services/userService");
 
 //  Регистрация юзера
@@ -59,9 +60,20 @@ const logoutController = async (req, res) => {
   res.status(204).json({ message: "No Content" });
 };
 
+// Обновление подписки юзера
+const subscriptionController = async (req, res) => {
+  const result = await updateSubscription(req.user.id, req.body.subscription);
+
+  if (result) {
+    const { email, subscription } = result;
+    res.status(200).json({ user: { email, subscription }, status: "updated" });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
   currentUserController,
   logoutController,
+  subscriptionController,
 };
