@@ -11,7 +11,7 @@ const getAllContacts = async (userId, query) => {
   }).populate("owner", "email");
   return contacts;
 };
-
+// С использованием библиотеки mongoose-paginate-v2
 // const getAllContacts = async (userId, query) => {
 //   const {
 //     page = 1,
