@@ -21,6 +21,13 @@ const login = async ({ email, password }) => {
   return token;
 };
 
+// Выход юзера
+const logout = async (id) => {
+  const data = await User.updateToken(id, null);
+  return data;
+};
+
 module.exports = {
   login,
+  logout,
 };

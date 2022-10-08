@@ -6,6 +6,7 @@ const {
   registerController,
   loginController,
   currentUserController,
+  logoutController,
 } = require("../../controllers/usersController"); // Валидации Joi
 
 const { regLogValidation } = require("../../middlewares/userValidation");
@@ -14,6 +15,7 @@ const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
 router.post("/signup", regLogValidation, ctrlWrapper(registerController)); // Роут для регистрации юзера
 router.post("/login", regLogValidation, ctrlWrapper(loginController)); // Роут для входа юзера
+router.post("/logout", authenticate, ctrlWrapper(logoutController)); // Роут для выхода юзера
 router.get(
   "/current",
   authenticate,

@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
+const { SubTypes } = require("../helpers/constants");
 
 const userSchema = new Schema(
   {
@@ -16,8 +17,8 @@ const userSchema = new Schema(
     },
     subscription: {
       type: String,
-      enum: ["starter", "pro", "business"],
-      default: "starter",
+      enum: [SubTypes.STARTER, SubTypes.PRO, SubTypes.BUSINESS],
+      default: SubTypes.STARTER,
     },
     token: {
       type: String,

@@ -1,5 +1,5 @@
 // const { Conflict } = require("http-errors");
-const { login } = require("../services/authService");
+const { login, logout } = require("../services/authService");
 const {
   createUser,
   findUserByEmail,
@@ -53,8 +53,15 @@ const currentUserController = async (req, res) => {
   }
 };
 
+// Выход юзера
+const logoutController = async (req, res) => {
+  await logout(req.user.id);
+  res.status(204).json({ message: "No Content" });
+};
+
 module.exports = {
   registerController,
   loginController,
   currentUserController,
+  logoutController,
 };
