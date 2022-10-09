@@ -1,10 +1,16 @@
 // const { Conflict } = require("http-errors");
+const fs = require("fs").promises;
+const path = require("path");
+
+const avatarsDir = path.join(__dirname, "public", "avatars");
+
 const { login, logout } = require("../services/authService");
 const {
   createUser,
   findUserByEmail,
   findUserById,
   updateSubscription,
+  // updateAvatar,
 } = require("../services/userService");
 
 //  Регистрация юзера
@@ -69,6 +75,12 @@ const subscriptionController = async (req, res) => {
     res.status(200).json({ user: { email, subscription }, status: "updated" });
   }
 };
+// Контроллер аватара юзера
+const avatarController = async (req, res) => {
+  const { path: tempUpload, originalname } = req.file;
+  const resultUpload = path.join(avatarsDir, originalname);
+  await fs.rename(tempUpload, resultUpload);
+};
 
 module.exports = {
   registerController,
@@ -76,4 +88,5 @@ module.exports = {
   currentUserController,
   logoutController,
   subscriptionController,
+  avatarController,
 };
