@@ -10,15 +10,16 @@ const {
   updateContactStatus,
 } = require("../services/contactsServices");
 
-// Вызываем функцию listContacts для работы с json-файлом contacts.json
-const getContacts = async (reg, res) => {
-  const contacts = await getAllContacts();
+// Получение всех контактов
+const getContacts = async (req, res) => {
+  console.log(req.query);
+  const contacts = await getAllContacts(req.user.id, req.query);
   res.status(200).json({ contacts, status: "Success" });
 };
 
 // Получение контакт по id
 const getContactsById = async (req, res) => {
-  const contact = await getContactById(req.params.contactId);
+  const contact = await getContactById(req.user.id, req.params.contactId);
 
   if (!contact) {
     return res.status(404).json({ message: "Not found" });
@@ -28,7 +29,7 @@ const getContactsById = async (req, res) => {
 
 // Создание контакта
 const addContacts = async (req, res) => {
-  const contact = await createContact(req.body);
+  const contact = await createContact(req.user.id, req.body);
 
   if (!contact) {
     return res.status(400).json({ message: "missing required name field" });
@@ -38,7 +39,7 @@ const addContacts = async (req, res) => {
 
 // Удаление контакта
 const deleteContact = async (req, res) => {
-  const result = await removeContact(req.params.contactId);
+  const result = await removeContact(req.user.id, req.params.contactId);
 
   if (!result) {
     return res.status(404).json({ message: "Not found" });
@@ -48,7 +49,11 @@ const deleteContact = async (req, res) => {
 
 // Обновление контакта
 const updateContacts = async (req, res) => {
-  const contact = await updateContact(req.params.contactId, req.body);
+  const contact = await updateContact(
+    req.user.id,
+    req.params.contactId,
+    req.body
+  );
 
   if (!contact) {
     return res.status(400).json({ message: "missing fields" });
@@ -60,7 +65,11 @@ const updateContacts = async (req, res) => {
 
 // Обновление статуса контакта
 const updateContactsStatus = async (req, res) => {
-  const contact = await updateContactStatus(req.params.contactId, req.body);
+  const contact = await updateContactStatus(
+    req.user.id,
+    req.params.contactId,
+    req.body
+  );
 
   if (!contact) {
     return res.status(400).json({ message: "missing fields" });

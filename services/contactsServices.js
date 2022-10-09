@@ -1,45 +1,99 @@
 // Сервис работы с БД
-const Contact = require("../schemas/contacts");
+const Contact = require("../models/contacts");
 
 // Получаем все контакты
-const getAllContacts = async () => {
-  const contacts = await Contact.find();
+const getAllContacts = async (userId, query) => {
+  const { page = 1, limit = 20 } = query;
+  const skip = (page - 1) * limit;
+  const contacts = await Contact.find({ owner: userId }, "", {
+    skip,
+    limit: Number(limit),
+  }).populate("owner", "email");
   return contacts;
 };
+// С использованием библиотеки mongoose-paginate-v2
+// const getAllContacts = async (userId, query) => {
+//   const {
+//     page = 1,
+//     limit = 20,
+//     offset = (page - 1) * limit,
+//     sortBy,
+//     sortByDesc,
+//     filter,
+//     favorite = null,
+//   } = query;
+
+//   const params = { owner: userId };
+
+//   if (favorite !== null) {
+//     params.favorite = favorite;
+//   }
+
+//   const result = await Contact.paginate(params, {
+//     page,
+//     limit,
+//     offset,
+//     sort: {
+//       ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+//       ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
+//     },
+//     select: filter ? filter.split("|").join(" ") : "",
+//     populate: ("owner", "email"),
+//   });
+
+//   const { docs: contacts, totalDocs: total, totalPages } = result;
+
+//   return {
+//     contacts,
+//     total,
+//     totalPages,
+//     page: Number(page),
+//     limit: Number(limit),
+//     offset: Number(offset),
+//   };
+// };
 
 // Находит контакт по id
-const getContactById = async (contactId) => {
-  const contact = await Contact.findById(contactId);
+const getContactById = async (userId, contactId) => {
+  const contact = await Contact.findOne({
+    _id: contactId,
+    owner: userId,
+  }).populate("owner", "email subscription");
   return contact;
 };
 
 // Создает  новый контакт
-const createContact = async ({ name, email, phone, favorite }) => {
-  const newContact = await Contact.create({ name, email, phone, favorite });
+const createContact = async (userId, body) => {
+  const newContact = await Contact.create({ ...body, owner: userId });
   return newContact;
 };
 
 // Удаляет контакт
-const removeContact = async (contactId) => {
-  const contact = await Contact.findByIdAndRemove(contactId);
+const removeContact = async (userId, contactId) => {
+  const contact = await Contact.findByIdAndRemove({
+    _id: contactId,
+    owner: userId,
+  });
   return contact;
 };
 
 // Обновляет контакт
-const updateContact = async (contactId, body) => {
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, body, {
-    new: true,
-  });
+const updateContact = async (userId, contactId, body) => {
+  const updatedContact = await Contact.findByIdAndUpdate(
+    { _id: contactId, owner: userId },
+    body,
+    { new: true }
+  ).populate("owner", "email subscription ");
   return updatedContact;
 };
 
 // Обновляет статус контакт (set под вопросом!)
-const updateContactStatus = async (contactId, { favorite }) => {
+const updateContactStatus = async (userId, contactId, { favorite }) => {
   const updatedContact = await Contact.findByIdAndUpdate(
-    contactId,
+    { _id: contactId, owner: userId },
     { favorite },
     { new: true }
-  );
+  ).populate("owner", "email subscription ");
   return updatedContact;
 };
 

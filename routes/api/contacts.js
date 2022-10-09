@@ -16,18 +16,19 @@ const {
   updateContactValidation,
   updateContactStatusValidation,
   idValidation,
-} = require("../../middlewares/validation");
+} = require("../../middlewares/contactValidation");
+const { authenticate } = require("../../middlewares/authenticate");
 
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
 
-// Роут для списка всех контактов
-router.get("/", ctrlWrapper(getContacts));
+// Роут для списка всех контактов авторизированным юзером
+router.get("/", authenticate, ctrlWrapper(getContacts));
 
 // Роут поиска контакта по id
 router.get("/:contactId", idValidation, ctrlWrapper(getContactsById));
 
-// Роут для создания контакта
-router.post("/", addContactValidation, ctrlWrapper(addContacts));
+// Роут для создания контакта авторизированным юзером
+router.post("/", authenticate, addContactValidation, ctrlWrapper(addContacts));
 
 // Роут для удаления контакта
 router.delete("/:contactId", idValidation, ctrlWrapper(deleteContact));
