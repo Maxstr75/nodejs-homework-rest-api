@@ -10,7 +10,7 @@ const {
   findUserByEmail,
   findUserById,
   updateSubscription,
-  // updateAvatar,
+  updateAvatar,
 } = require("../services/userService");
 
 //  Регистрация юзера
@@ -79,7 +79,14 @@ const subscriptionController = async (req, res) => {
 const avatarController = async (req, res) => {
   const { path: tempUpload, originalname } = req.file;
   const resultUpload = path.join(avatarsDir, originalname);
-  await fs.rename(tempUpload, resultUpload);
+  try {
+    await fs.rename(tempUpload, resultUpload);
+    const newAvatarUrl = path.join(resultUpload);
+    const url = await updateAvatar(req.user.id, newAvatarUrl);
+    return res.status(200).json({ avatarURL: url });
+  } catch (error) {
+    await fs.unlink(tempUpload);
+  }
 };
 
 module.exports = {
