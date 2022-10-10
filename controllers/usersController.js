@@ -1,4 +1,5 @@
 // const { Conflict } = require("http-errors");
+
 const fs = require("fs").promises;
 const path = require("path");
 
@@ -22,11 +23,12 @@ const registerController = async (req, res) => {
     return res.status(409).json({ message: "Email in use" });
   }
 
-  const { email, subscription } = await createUser(req.body);
+  const { email, subscription, avatarURL } = await createUser(req.body);
   res.status(201).json({
     user: {
       email,
       subscription,
+      avatarURL,
     },
   });
 };
@@ -36,12 +38,15 @@ const loginController = async (req, res) => {
   const token = await login(req.body);
 
   if (token) {
-    const { email, subscription } = await findUserByEmail(req.body.email);
+    const { email, subscription, avatarURL } = await findUserByEmail(
+      req.body.email
+    );
     res.status(200).json({
       token,
       user: {
         email,
         subscription,
+        avatarURL,
       },
     });
   }
@@ -55,8 +60,8 @@ const currentUserController = async (req, res) => {
   const currentUser = await findUserById(req.user.id);
 
   if (currentUser) {
-    const { email, subscription } = currentUser;
-    res.status(200).json({ email, subscription });
+    const { email, subscription, avatarURL } = currentUser;
+    res.status(200).json({ email, subscription, avatarURL });
   }
 };
 
