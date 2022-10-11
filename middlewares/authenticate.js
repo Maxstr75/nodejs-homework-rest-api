@@ -16,7 +16,7 @@ const authenticate = async (req, res, next) => {
   const [bearer, token] = authorization.split(" ");
 
   try {
-    if (bearer !== "Bearer" || token !== "token") {
+    if (bearer !== "Bearer") {
       return res.status(401).json({ message: "Not authorized" });
     }
     const { id } = jwt.verify(token, SECRET_KEY);
