@@ -2,6 +2,7 @@
 
 const fs = require("fs/promises");
 const path = require("path");
+const Jimp = require("jimp");
 
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
@@ -85,6 +86,22 @@ const avatarController = async (req, res) => {
   const { path: tempUpload, originalname } = req.file;
   const { _id: id } = req.user;
   const avatarName = `${id}_${originalname}`;
+  Jimp.read(tempUpload)
+    .then((image) => {
+      return image
+        .autocrop() // автообрезка
+        .cover(
+          // режим выравнивания
+          250,
+          250,
+          Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE // Располагает ось x в центре изображения || Располагает ось Y в центре изображения
+        )
+        .quality(60) // качество изображения 0-100
+        .writeAsync(tempUpload); // сохранить
+    })
+    .catch((error) => {
+      console.log(error);
+    }); // Обработка исключения.
   try {
     const resultUpload = path.join(avatarsDir, avatarName);
     await fs.rename(tempUpload, resultUpload);
