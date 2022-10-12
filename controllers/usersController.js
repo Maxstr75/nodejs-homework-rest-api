@@ -86,7 +86,7 @@ const avatarController = async (req, res) => {
   const { path: tempUpload, originalname } = req.file;
   const { _id: id } = req.user;
   const avatarName = `${id}_${originalname}`;
-  Jimp.read(tempUpload)
+  await Jimp.read(tempUpload)
     .then((image) => {
       return image
         .autocrop() // автообрезка
