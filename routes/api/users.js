@@ -8,6 +8,7 @@ const {
   currentUserController,
   logoutController,
   subscriptionController,
+  avatarController,
 } = require("../../controllers/usersController"); // Валидации Joi
 
 const {
@@ -16,6 +17,7 @@ const {
 } = require("../../middlewares/userValidation");
 const { authenticate } = require("../../middlewares/authenticate");
 const ctrlWrapper = require("../../helpers/сtrlWrapper");
+const upload = require("../../middlewares/upload");
 
 router.post("/signup", regLogValidation, ctrlWrapper(registerController)); // Роут для регистрации юзера
 router.post("/login", regLogValidation, ctrlWrapper(loginController)); // Роут для входа юзера
@@ -32,5 +34,11 @@ router.patch(
   subscriptionValidation,
   ctrlWrapper(subscriptionController)
 ); // Роут для обновления статуса
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  ctrlWrapper(avatarController)
+); // Обновление аватара
 
 module.exports = router;
