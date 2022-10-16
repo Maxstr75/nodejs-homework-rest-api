@@ -1,4 +1,4 @@
-// Отправка письма через nodemailer
+// ---------- Отправка письма через nodemailer -------------------
 const nodemailer = require("nodemailer");
 
 const { META_PASSWORD } = process.env;
@@ -27,7 +27,7 @@ transporter
   .then(() => console.log("Email send success"))
   .catch((error) => console.log(error.message));
 
-// Отправка письма через Sendgrid
+// -------- Отправка письма через Sendgrid -----------
 // const sgMail = require("@sendgrid/mail");
 
 // const { SENDGRID_API_KEY } = process.env;

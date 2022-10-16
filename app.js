@@ -3,7 +3,7 @@ const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
-// Отправка письма через nodemailer
+// ------ Отправка письма через nodemailer --------------
 // const nodemailer = require("nodemailer");
 
 // const { META_PASSWORD } = process.env;
@@ -32,8 +32,7 @@ require("dotenv").config();
 //   .then(() => console.log("Email send success"))
 //   .catch((error) => console.log(error.message));
 
-// Отправка письма через Sendgrid
-
+// ----- Отправка письма через Sendgrid --------------
 // const sgMail = require("@sendgrid/mail");
 
 // const { SENDGRID_API_KEY } = process.env;
