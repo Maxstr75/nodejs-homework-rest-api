@@ -1,9 +1,26 @@
+const { nanoid } = require("nanoid");
 const User = require("../models/user");
+const { sendEmail } = require("./emailService");
 
 // Создает нового юзера в базе
 const createUser = async (body) => {
-  const user = await new User(body);
+  const verificationToken = nanoid();
+  const { email } = body;
+
+  await sendEmail(verificationToken, email);
+
+  const user = await new User({ ...body, verificationToken });
   return user.save();
+};
+
+// Верифицирует юзера
+const verify = async (token) => {
+  const user = await User.findOne({ verifyToken: token });
+
+  if (user) {
+    await user.updateOne({ verify: true, verifyToken: null });
+    return true;
+  }
 };
 
 // Находит юзера в базе по id
@@ -51,4 +68,5 @@ module.exports = {
   updateToken,
   updateSubscription,
   updateAvatar,
+  verify,
 };

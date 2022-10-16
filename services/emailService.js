@@ -15,7 +15,7 @@ const nodemailerConfig = {
 
 const transporter = nodemailer.createTransport(nodemailerConfig);
 
-const email = {
+const sendEmail = {
   to: "gixin10127@inkmoto.com",
   from: "maxim050775@meta.ua",
   subject: "Новая заявка с сайта",
@@ -23,7 +23,7 @@ const email = {
 };
 
 transporter
-  .sendMail(email)
+  .sendMail(sendEmail)
   .then(() => console.log("Email send success"))
   .catch((error) => console.log(error.message));
 
@@ -43,6 +43,4 @@ transporter
 //     throw error;
 //   }
 // };
-// module.exports = sendEmail;
-
-module.exports = email;
+module.exports = sendEmail;
