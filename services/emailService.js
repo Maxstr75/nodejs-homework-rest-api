@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport(nodemailerConfig);
 const sendEmail = {
   to: "gixin10127@inkmoto.com",
   from: "maxim050775@meta.ua",
-  subject: "Новая заявка с сайта",
-  html: "<p>С сайта пришла новая заявка<p/>",
+  subject: "Подтверждение email",
+  html: `<a href= "http://localhost:3000/api/users/verify/verificationToken"> Подтвердить email</a>`,
 };
 
 transporter
