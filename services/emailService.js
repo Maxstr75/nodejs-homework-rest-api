@@ -16,7 +16,7 @@
 // const transporter = nodemailer.createTransport(nodemailerConfig);
 
 // const sendEmail = {
-//   to: "polaciw691@inkmoto.com",
+//   to: "relero4914@imdutex.com",
 //   from: "maxim050775@meta.ua",
 //   subject: "Подтверждение email",
 //   html: `<a href= "http://localhost:3000/api/users/verify/verificationToken"> Подтвердить email</a>`,
@@ -33,14 +33,20 @@ const sgMail = require("@sendgrid/mail");
 const { SENDGRID_API_KEY } = process.env;
 sgMail.setApiKey(SENDGRID_API_KEY);
 
-const sendEmail = {
-  to: "polaciw691@inkmoto.com",
+const sendEmail = async (data) => {
+  const mail = { ...data, from: "max057521@gmail.com" };
+  await sgMail.send(mail);
+  return true;
+};
+
+const mail = {
+  to: "relero4914@imdutex.com",
   from: "max057521@gmail.com",
   subject: "Подтверждение email",
   html: `<a href= "http://localhost:3000/api/users/verify/verificationToken"> Confirm email</a>`,
 };
 sgMail
-  .send(sendEmail)
+  .send(mail)
   .then(() => {
     console.log("Email send success");
   })
