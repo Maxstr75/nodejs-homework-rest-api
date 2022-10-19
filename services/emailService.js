@@ -33,12 +33,6 @@ const sgMail = require("@sendgrid/mail");
 const { SENDGRID_API_KEY } = process.env;
 sgMail.setApiKey(SENDGRID_API_KEY);
 
-const sendEmail = async (data) => {
-  const mail = { ...data, from: "max057521@gmail.com" };
-  await sgMail.send(mail);
-  return true;
-};
-
 const mail = {
   to: "relero4914@imdutex.com",
   from: "max057521@gmail.com",
@@ -53,5 +47,11 @@ sgMail
   .catch((error) => {
     console.error(error.message);
   });
+
+const sendEmail = async (data) => {
+  const mail = { ...data, from: "max057521@gmail.com" };
+  await sgMail.send(mail);
+  return true;
+};
 
 module.exports = sendEmail;
