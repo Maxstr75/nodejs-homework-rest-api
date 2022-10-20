@@ -15,10 +15,10 @@ const createUser = async (body) => {
 
 // Верифицирует юзера
 const verify = async (token) => {
-  const user = await User.findOne({ verifyToken: token });
+  const user = await User.findOne({ verificationToken: token });
 
   if (user) {
-    await user.updateOne({ verify: true, verifyToken: null });
+    await user.updateOne({ verify: true, verificationToken: null });
     return true;
   }
 };
