@@ -1,6 +1,6 @@
 const { nanoid } = require("nanoid");
 const User = require("../models/user");
-const { sendEmail } = require("./emailService");
+const sendEmail  = require("./emailService");
 
 // Создает нового юзера в базе
 const createUser = async (body) => {
