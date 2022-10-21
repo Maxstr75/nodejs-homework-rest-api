@@ -4,6 +4,14 @@ const sgMail = require("@sendgrid/mail");
 const { SENDGRID_API_KEY } = process.env;
 sgMail.setApiKey(SENDGRID_API_KEY);
 
+const sendEmail = async (data) => {
+  const mail = { ...data, from: "max057521@gmail.com" };
+  await sgMail.send(mail);
+  return true;
+};
+
+module.exports = sendEmail;
+
 // const mail = {
 //   to: "hiyig38620@cadolls.com",
 //   from: "max057521@gmail.com",
@@ -18,12 +26,6 @@ sgMail.setApiKey(SENDGRID_API_KEY);
 //   .catch((error) => {
 //     console.error(error.message);
 //   });
-
-const sendEmail = async (data) => {
-  const mail = { ...data, from: "max057521@gmail.com" };
-  await sgMail.send(mail);
-  return true;
-};
 
 // ---------- Отправка письма через nodemailer -------------------
 // const nodemailer = require("nodemailer");
@@ -53,5 +55,3 @@ const sendEmail = async (data) => {
 //   .sendMail(sendEmail)
 //   .then(() => console.log("Email send success"))
 //   .catch((error) => console.log(error.message));
-
-module.exports = sendEmail;
