@@ -10,7 +10,7 @@ const createUser = async (body) => {
   const mail = {
     to: email,
     subject: "Подтверждение email",
-    html: `<a href="${BASE_URL}/api/auth/verify/${verificationToken}">Confirm email</a>`,
+    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Confirm email</a>`,
   };
   await sendEmail(mail);
 
