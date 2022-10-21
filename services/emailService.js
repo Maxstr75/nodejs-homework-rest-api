@@ -4,24 +4,24 @@ const sgMail = require("@sendgrid/mail");
 const { SENDGRID_API_KEY } = process.env;
 sgMail.setApiKey(SENDGRID_API_KEY);
 
-const mail = {
-  to: "hiyig38620@cadolls.com",
-  from: "max057521@gmail.com",
-  subject: "Подтверждение email",
-  html: `<a href= "http://localhost:3000/api/users/verify/verificationToken"> Confirm email</a>`,
-};
-sgMail
-  .send(mail)
-  .then(() => {
-    console.log("Email send success");
-  })
-  .catch((error) => {
-    console.error(error.message);
-  });
+// const mail = {
+//   to: "hiyig38620@cadolls.com",
+//   from: "max057521@gmail.com",
+//   subject: "Подтверждение email",
+//   html: `<a href= "http://localhost:3000/api/users/verify/verificationToken"> Confirm email</a>`,
+// };
+// sgMail
+//   .send(mail)
+//   .then(() => {
+//     console.log("Email send success");
+//   })
+//   .catch((error) => {
+//     console.error(error.message);
+//   });
 
 const sendEmail = async (data) => {
-  const email = { ...data, from: "max057521@gmail.com" };
-  await sgMail.send(email);
+  const mail = { ...data, from: "max057521@gmail.com" };
+  await sgMail.send(mail);
   return true;
 };
 
