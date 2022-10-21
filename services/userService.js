@@ -1,8 +1,7 @@
 const { nanoid } = require("nanoid");
 const User = require("../models/user");
 const sendEmail = require("./emailService");
-
-const BASE_URL = "http://localhost:3000";
+const { BASE_URL } = process.env;
 
 // Создает нового юзера в базе
 const createUser = async (body) => {
@@ -10,8 +9,8 @@ const createUser = async (body) => {
   const { email } = body;
   const mail = {
     to: email,
-    subject: "website registration confirmation",
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Please click to complete registration.</a>`,
+    subject: "Подтверждение email",
+    html: `<a href="${BASE_URL}/api/auth/verify/${verificationToken}">Confirm email</a>`,
   };
   await sendEmail(mail);
 
