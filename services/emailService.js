@@ -20,8 +20,8 @@ sgMail
   });
 
 const sendEmail = async (data) => {
-  const mail = { ...data, from: "max057521@gmail.com" };
-  await sgMail.send(mail);
+  const email = { ...data, from: "max057521@gmail.com" };
+  await sgMail.send(email);
   return true;
 };
 
