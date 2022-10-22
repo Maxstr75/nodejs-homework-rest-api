@@ -10,6 +10,7 @@ const {
   subscriptionController,
   avatarController,
   verifyController,
+  reVerifyController,
 } = require("../../controllers/usersController"); // Валидации Joi
 
 const {
@@ -22,6 +23,7 @@ const upload = require("../../middlewares/upload");
 
 router.post("/signup", regLogValidation, ctrlWrapper(registerController)); // Роут для регистрации юзера
 router.get("/verify/:verificationToken", ctrlWrapper(verifyController)); // Роут для верификации юзера
+router.post("/verify/", ctrlWrapper(reVerifyController)); // Роут повторной отправки для верификации юзера
 router.post("/login", regLogValidation, ctrlWrapper(loginController)); // Роут для входа юзера
 router.get("/logout", authenticate, ctrlWrapper(logoutController)); // Роут для выхода юзера
 router.get(

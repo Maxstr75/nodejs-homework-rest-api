@@ -14,6 +14,7 @@ const {
   updateSubscription,
   updateAvatar,
   verify,
+  reVerify,
 } = require("../services/userService");
 
 //  Регистрация юзера
@@ -44,6 +45,16 @@ const verifyController = async (req, res) => {
   }
 
   res.status(404).json({ message: "User not found" });
+};
+
+//  Контроллер повторной верификации юзера
+const reVerifyController = async (req, res) => {
+  const result = await reVerify(req.body.email);
+
+  if (result) {
+    return res.status(200).json({ message: "Verification email sent" });
+  }
+  res.status(400).json({ message: "Verification has already been passed" });
 };
 
 // Вход юзера
@@ -134,4 +145,5 @@ module.exports = {
   subscriptionController,
   avatarController,
   verifyController,
+  reVerifyController,
 };
