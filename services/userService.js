@@ -28,6 +28,15 @@ const verify = async (token) => {
   }
 };
 
+// Повторная верификация юзера
+const reVerify = async (email) => {
+  const user = await User.findOne({ email, verify: false });
+  if (user) {
+    await sendEmail(user.verificationToken, email);
+    return true;
+  }
+};
+
 // Находит юзера в базе по id
 const findUserById = async (id) => {
   const user = await User.findById(id);
@@ -74,4 +83,5 @@ module.exports = {
   updateSubscription,
   updateAvatar,
   verify,
+  reVerify,
 };
