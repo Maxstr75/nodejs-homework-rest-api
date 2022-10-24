@@ -1,9 +1,40 @@
+const { nanoid } = require("nanoid");
 const User = require("../models/user");
+const sendEmail = require("./emailService");
+const { BASE_URL } = process.env;
 
 // Создает нового юзера в базе
 const createUser = async (body) => {
-  const user = await new User(body);
+  const verificationToken = nanoid();
+  const { email } = body;
+  const mail = {
+    to: email,
+    subject: "Подтверждение email",
+    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Confirm email</a>`,
+  };
+  await sendEmail(mail);
+
+  const user = await new User({ ...body, verificationToken });
   return user.save();
+};
+
+// Верифицирует юзера
+const verify = async (token) => {
+  const user = await User.findOne({ verificationToken: token });
+
+  if (user) {
+    await user.updateOne({ verify: true, verificationToken: null });
+    return true;
+  }
+};
+
+// Повторная верификация юзера
+const reVerify = async (email) => {
+  const user = await User.findOne({ email, verify: false });
+  if (user) {
+    await sendEmail(user.verificationToken, email);
+    return true;
+  }
 };
 
 // Находит юзера в базе по id
@@ -51,4 +82,6 @@ module.exports = {
   updateToken,
   updateSubscription,
   updateAvatar,
+  verify,
+  reVerify,
 };

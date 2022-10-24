@@ -13,6 +13,8 @@ const {
   findUserById,
   updateSubscription,
   updateAvatar,
+  verify,
+  reVerify,
 } = require("../services/userService");
 
 //  Регистрация юзера
@@ -32,6 +34,27 @@ const registerController = async (req, res) => {
       avatarURL,
     },
   });
+};
+
+// Контроллер верификации юзера
+const verifyController = async (req, res) => {
+  const result = await verify(req.params.verificationToken);
+
+  if (result) {
+    return res.status(200).json({ message: "Verification successful" });
+  }
+
+  res.status(404).json({ message: "User not found" });
+};
+
+//  Контроллер повторной верификации юзера
+const reVerifyController = async (req, res) => {
+  const result = await reVerify(req.body.email);
+
+  if (result) {
+    return res.status(200).json({ message: "Verification email sent" });
+  }
+  res.status(400).json({ message: "Verification has already been passed" });
 };
 
 // Вход юзера
@@ -121,4 +144,6 @@ module.exports = {
   logoutController,
   subscriptionController,
   avatarController,
+  verifyController,
+  reVerifyController,
 };
