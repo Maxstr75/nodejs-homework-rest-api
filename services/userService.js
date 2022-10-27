@@ -28,11 +28,16 @@ const verify = async (token) => {
   }
 };
 
-// Повторная верификация юзера
+//  Повторная отправка емейла для верификации юзера
 const reVerify = async (email) => {
   const user = await User.findOne({ email, verify: false });
   if (user) {
-    await sendEmail(user.verificationToken, email);
+    const mail = {
+      to: email,
+      subject: "Подтверждение email",
+      html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Confirm email</a>`,
+    };
+    await sendEmail(mail);
     return true;
   }
 };
